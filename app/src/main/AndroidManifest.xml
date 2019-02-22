@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Catalog" android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"></activity>
+        <activity android:name=".SRegister" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".CRegister" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".RegisterType" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
