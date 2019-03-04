@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class login extends AppCompatActivity {
-     private EditText userName;
+    DatabaseHelper helper=new DatabaseHelper(this);
+
+     private EditText email;
      private EditText password;
      private Button login, register;
 
@@ -22,7 +24,7 @@ public class login extends AppCompatActivity {
         //Setting the UI of login page
 
         setContentView(R.layout.activity_login);
-        userName=findViewById(R.id.et_username);
+        email=findViewById(R.id.et_email);
         password= findViewById(R.id.et_pwd);
         login=findViewById(R.id.btn_login);
         register=findViewById(R.id.btn_register);
@@ -30,11 +32,9 @@ public class login extends AppCompatActivity {
         // login button click event
         login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(loginValid()) {
-                    Intent catalogIntent = new Intent(login.this, Catalog.class);
-                    login.this.startActivity(catalogIntent);
-                }
+            public void onClick(View v)
+            {
+                loginValid();
             }
         });
 
@@ -50,26 +50,24 @@ public class login extends AppCompatActivity {
 
 
         // function to validate the login credentials
-        boolean loginValid ()
+       public void loginValid ()
         {
-            boolean valid=false;
-            String name=userName.getText().toString();
-            String pwd=password.getText().toString();
-            if(name.equals("jop") && pwd.equals("1998"))
+            if(email.getText().toString().isEmpty()||password.getText().toString().isEmpty())
             {
-                valid=true;
+                Toast.makeText(this,"please enter all details",Toast.LENGTH_SHORT).show();
             }
-            else if((name.isEmpty() || pwd.isEmpty()))
-            {
-                Toast.makeText(this,"please enter all the credentials",Toast.LENGTH_SHORT).show();
-                valid=false;
-            }
-            else if(!name.equals("jop") || !pwd.equals("1998"))
-            {
-                Toast.makeText(this,"please enter valid credentials",Toast.LENGTH_SHORT).show();
-                valid=false;
-            }
-            return valid;
+
+           else if(helper.checkCust(email.getText().toString().trim(),password.getText().toString().trim()))
+           {
+               Intent catalogIntent = new Intent(login.this, Catalog.class);
+               login.this.startActivity(catalogIntent);
+           }
+
+           else
+           {
+               Toast.makeText(this,"invalid credentials",Toast.LENGTH_SHORT).show();
+           }
+
         }
 
 }

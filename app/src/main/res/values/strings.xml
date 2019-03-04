@@ -2,4 +2,5 @@
     <string name="app_name">Milk Manager</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="EXISTS">EXISTS</string>
 </resources>
