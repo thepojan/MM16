@@ -1,4 +1,4 @@
-package com.example.parmila.milkmanager;
+package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
+import com.example.parmila.milkmanager.R;
 
 public class login extends AppCompatActivity {
     DatabaseHelper helper=new DatabaseHelper(this);
@@ -62,6 +65,11 @@ public class login extends AppCompatActivity {
                Intent catalogIntent = new Intent(login.this, Catalog.class);
                login.this.startActivity(catalogIntent);
            }
+           else if(helper.checkSeller(email.getText().toString().trim(),password.getText().toString().trim()))
+            {
+                Intent SellerDashboardIntent = new Intent(login.this, SellerDashboard.class);
+                login.this.startActivity(SellerDashboardIntent);
+            }
 
            else
            {

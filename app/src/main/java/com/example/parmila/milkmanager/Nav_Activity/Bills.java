@@ -1,15 +1,15 @@
-package com.example.parmila.milkmanager;
+package com.example.parmila.milkmanager.Nav_Activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-public class SRegister extends AppCompatActivity {
+import com.example.parmila.milkmanager.R;
 
-
+public class Bills extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seller_register);
+        setContentView(R.layout.activity_bills);
     }
 }

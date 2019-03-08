@@ -1,4 +1,4 @@
-package com.example.parmila.milkmanager;
+package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
+import com.example.parmila.milkmanager.R;
+import com.example.parmila.milkmanager.modules.Customer;
 
 public class CRegister extends AppCompatActivity {
 

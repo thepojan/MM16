@@ -1,4 +1,4 @@
-package com.example.parmila.milkmanager;
+package com.example.parmila.milkmanager.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.example.parmila.milkmanager.R;
 
 public class RegisterType extends AppCompatActivity {
 

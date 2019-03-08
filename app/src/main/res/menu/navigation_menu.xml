@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-   <item android:id="@+id/morders"
-       android:title="My orders"/>
-    <item android:title="bills"
+   <item android:id="@+id/view_orders"
+       android:title="View My orders"/>
+
+    <item
+        android:id="@+id/bills" android:title="bills"
         android:titleCondensed="Monthly Bills"
         />
     <item
-        android:id="@+id/order_preferences"
-        android:title="Order Preferences"
+        android:id="@+id/order_now"
+        android:title="Order Now"
         />
     <item
         android:id="@+id/settings"

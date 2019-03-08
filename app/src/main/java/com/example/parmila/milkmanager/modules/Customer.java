@@ -1,4 +1,4 @@
-package com.example.parmila.milkmanager;
+package com.example.parmila.milkmanager.modules;
 
 public class Customer {
 
