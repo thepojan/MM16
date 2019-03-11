@@ -1,13 +1,16 @@
 package com.example.parmila.milkmanager;
 
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.parmila.milkmanager.Activities.Catalog;
 import com.example.parmila.milkmanager.modules.Seller;
 
 import java.util.List;
@@ -40,13 +43,24 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
 
     public class SellerViewHolder extends RecyclerView.ViewHolder {
         public TextView name,phone, area ;
+        public Button order;
 
         public SellerViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name);
             phone = view.findViewById(R.id.phone);
             area =  view.findViewById(R.id.area);
+            order=view.findViewById(R.id.order);
+            order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent in=new Intent(SellerRecyclerAdapter.this, Catalog.class);
+                }
+            });
         }
+
     }
+
+
 
 }

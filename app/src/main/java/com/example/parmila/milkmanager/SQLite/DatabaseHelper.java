@@ -5,9 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.Preference;
 
 import com.example.parmila.milkmanager.modules.Customer;
-import com.example.parmila.milkmanager.modules.Preference;
+import com.example.parmila.milkmanager.modules.Order;
 import com.example.parmila.milkmanager.modules.Seller;
 
 import java.util.ArrayList;
@@ -47,12 +48,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_M_TYPE="m_type";
     private static final String COLUMN_M_PRICE="m_price";
 
-    //Preference table
-    private static final String P_TABLE_NAME="Preference";
-    private static final String COLUMN_P_ID="p_id";
-    private static final String COLUMN_P_CID="p_c_id";
-    private static final String COLUMN_P_TYPE="p_type";
-    private static final String COLUMN_P_QUANTITY="p_quantity";
+    //Order table
+    private static final String O_TABLE_NAME="MOrder";
+    private static final String COLUMN_O_ID="o_id";
+    private static final String COLUMN_O_DATE="o_date";
+    private static final String COLUMN_O_CNAME="o_c_name";
+    private static final String COLUMN_O_CADDR="o_addr";
+    private static final String COLUMN_O_SNAME="o_s_name";
+    private static final String COLUMN_O_SDATE="o_sdate";
+    private static final String COLUMN_O_EDATE="o_edate";
+    private static final String COLUMN_O_DAYS="o_days";
+    private static final String COLUMN_O_TYPE="o_type";
+    private static final String COLUMN_O_QUANTITY="o_quantity";
+    private static final String COLUMN_O_COST_PER_DAY="o_final_cost";
+    private static final String COLUMN_O_FINAL_COST="o_final_cost";
 
 
 
@@ -80,12 +89,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +COLUMN_S_EMAIL+" text not null,"
             +COLUMN_S_PASS+" text not null)";
 
-    //Preference table create
-    private static final String P_TABLE_CREATE =" CREATE TABLE "+P_TABLE_NAME+"("+COLUMN_P_ID+" text primary key not null ,"
-            +COLUMN_C_ID+" text not null "
-            +"REFERENCES "+C_TABLE_NAME+"("+COLUMN_C_ID+"),"
-            +COLUMN_P_TYPE+" text not null,"
-            +COLUMN_P_QUANTITY+" text not null)";
+    //Order table create
+    private static final String O_TABLE_CREATE =" CREATE TABLE "+O_TABLE_NAME+"("+COLUMN_O_ID+" text not null,"
+            +COLUMN_O_DATE+" text not null,"
+            +COLUMN_O_CNAME+" text not null,"
+            +COLUMN_O_CADDR+" text not null,"
+            +COLUMN_O_SNAME+" text not null,"
+            +COLUMN_O_TYPE+ "text not null,"
+            +COLUMN_O_QUANTITY+"integer not null,"
+            +COLUMN_O_SDATE+"text not null,"
+            +COLUMN_O_EDATE+"text not null,"
+            +COLUMN_O_DAYS+"integer not null,"
+            +COLUMN_O_COST_PER_DAY+" integer not null,"
+            +COLUMN_O_FINAL_COST+" integer not null)";
+
 
 
 
@@ -99,8 +116,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Milk table drop
     private static final String M_TABLE_DROP="DROP TABLE IF EXISTS "+M_TABLE_NAME;
 
-    //Preference table drop
-    private static final String P_TABLE_DROP="DROP TABLE IF EXISTS "+P_TABLE_NAME;
+    //Order table drop
+    private static final String O_TABLE_DROP="DROP TABLE IF EXISTS "+O_TABLE_NAME;
 
 
 
@@ -114,7 +131,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(C_TABLE_CREATE);
         db.execSQL(S_TABLE_CREATE);
         db.execSQL(M_TABLE_CREATE);
-        db.execSQL(P_TABLE_CREATE);
+        db.execSQL(O_TABLE_CREATE);
     }
 
     @Override
@@ -123,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(C_TABLE_DROP);
         db.execSQL(S_TABLE_DROP);
         db.execSQL(M_TABLE_DROP);
-        db.execSQL(P_TABLE_DROP);
+        db.execSQL(O_TABLE_DROP);
         onCreate(db);
 
     }
@@ -196,25 +213,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    //insert preference record
-    public void insertPreference(Preference p)
+    //insert Order record
+    public void insertOrder(Order o)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
 
         //generating unique customer id
-        String query="Select * FROM "+P_TABLE_NAME;
+        String query="Select * FROM "+O_TABLE_NAME;
 
         Cursor cursor=db.rawQuery(query,null);
-        String p_id="P-"+Integer.toString(cursor.getCount());
+        String o_id="O-"+Integer.toString(cursor.getCount());
         cursor.close();
 
         //inserting a record
-        values.put(COLUMN_P_ID,p_id);
-        values.put(COLUMN_P_CID, p.getPc_id());
-        values.put(COLUMN_P_TYPE, p.getP_Type());
-        values.put(COLUMN_P_QUANTITY,p.getP_Quantity());
-        db.insert(P_TABLE_NAME,null,values);
+        values.put(COLUMN_O_ID,o_id);
+        values.put(COLUMN_O_DATE,o.getO_date());
+        values.put(COLUMN_O_CNAME, o.getO_cname());
+        values.put(COLUMN_O_CADDR,o.getO_caddr());
+        values.put(COLUMN_O_SNAME,o.getO_sname());
+        values.put(COLUMN_O_TYPE, o.getO_type());
+        values.put(COLUMN_O_QUANTITY,o.getO_quantity());
+        values.put(COLUMN_O_SDATE,o.getO_start());
+        values.put(COLUMN_O_EDATE, o.getO_end());
+        values.put(COLUMN_O_DAYS,o.getO_days());
+        values.put(COLUMN_O_COST_PER_DAY,o.getO_pcost());
+        values.put(COLUMN_O_FINAL_COST,o.getO_fcost());
+        db.insert(O_TABLE_NAME,null,values);
         db.close();
     }
 

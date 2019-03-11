@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Milk Type:"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <RadioButton
@@ -50,14 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cow"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/buffalo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buffalo"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
     </RadioGroup>
 
     <TextView
@@ -70,12 +70,12 @@
         android:layout_marginLeft="28dp"
         android:layout_marginBottom="323dp"
         android:text="Quantity"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/m_qtty"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -83,9 +83,32 @@
         android:layout_marginStart="138dp"
         android:layout_marginLeft="138dp"
         android:layout_marginBottom="316dp"
-        android:hint="Ouantity in Litres"
         android:inputType="number"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="256dp"
+        android:layout_height="41dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="62dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginBottom="258dp"
+        android:hint="Select Start Date"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/end"
+        android:layout_width="249dp"
+        android:layout_height="48dp"
+        android:layout_alignTop="@+id/start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:hint="Select End Date"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/calc_cost"
@@ -94,9 +117,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginBottom="235dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginLeft="69dp"
+        android:layout_marginBottom="133dp"
         android:background="@drawable/rounded_pink"
         android:text="Calculate Cost"
         android:textColor="#fff"
@@ -108,22 +131,22 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginBottom="176dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="71dp"
         android:text="Rupees:"
         android:textSize="26sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/final_cost"
-        android:layout_width="208dp"
-        android:layout_height="wrap_content"
+        android:layout_width="197dp"
+        android:layout_height="46dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="31dp"
-        android:layout_marginRight="31dp"
-        android:layout_marginBottom="169dp" />
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="74dp" />
 
     <Button
         android:id="@+id/submit"
@@ -134,11 +157,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="142dp"
-        android:layout_marginLeft="142dp"
-        android:layout_marginEnd="138dp"
-        android:layout_marginRight="138dp"
-        android:layout_marginBottom="102dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginLeft="135dp"
+        android:layout_marginEnd="145dp"
+        android:layout_marginRight="145dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_pink"
         android:text="Submit"
         android:textColor="#fff"
