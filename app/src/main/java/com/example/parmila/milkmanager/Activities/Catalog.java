@@ -109,11 +109,6 @@ public class Catalog extends AppCompatActivity {
                         startActivity(intent);
                         break;
 
-                    case R.id.order_now:
-                        intent = new Intent(Catalog.this, Order_Now.class);
-                        startActivity(intent);
-                        break;
-
                     case R.id.settings:
                         intent = new Intent(Catalog.this, Setting.class);
                         startActivity(intent);

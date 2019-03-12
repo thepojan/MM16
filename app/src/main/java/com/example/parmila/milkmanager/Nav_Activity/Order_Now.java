@@ -5,9 +5,7 @@ import android.app.DatePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.util.DateInterval;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,11 +30,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Date;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class Order_Now extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener sDateSetListener,eDateSetListener;
+    public static final String DATE_FORMAT="d/M/yyyy";
     Customer c=new Customer();
     Seller s=new Seller();
     DatabaseHelper helper=new DatabaseHelper(this);
@@ -44,7 +43,7 @@ public class Order_Now extends AppCompatActivity {
     RadioButton Cow,Buffalo;
     EditText quantity;
     Button cal_cost, Submit;
-    TextView Total_Cost, startDate,endDate;
+    TextView Total_Cost, startDate,endDate,perDayCost;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +56,6 @@ public class Order_Now extends AppCompatActivity {
                 int year=cal.get(Calendar.YEAR);
                 int month=cal.get(Calendar.MONTH);
                 int day=cal.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog dialog=new DatePickerDialog(
                         Order_Now.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
@@ -90,7 +88,7 @@ public class Order_Now extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month=month+1;
-                String date=month+"/"+dayOfMonth+"/"+year;
+                String date=dayOfMonth+"/"+month+"/"+year;
                 startDate.setText(date);
             }
         };
@@ -98,7 +96,7 @@ public class Order_Now extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month=month+1;
-                String date=month+"/"+dayOfMonth+"/"+year;
+                String date=dayOfMonth+"/"+month+"/"+year;
                 endDate.setText(date);
             }
         };
@@ -110,10 +108,14 @@ public class Order_Now extends AppCompatActivity {
         cal_cost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalCost=Integer.toString(milkCost());
-                Total_Cost.setText((finalCost));
+                String per_cost=Integer.toString(milkCost());
+                String total_cost=Integer.toString(total_mcost());
+                Total_Cost.setText(total_cost);
+                perDayCost.setText(per_cost);
             }
         });
+
+
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,8 +162,10 @@ public class Order_Now extends AppCompatActivity {
         cal_cost=findViewById(R.id.calc_cost);
         Submit=findViewById(R.id.submit);
         Total_Cost=findViewById(R.id.final_cost);
+        perDayCost=findViewById(R.id.per_day_cost);
         startDate=findViewById(R.id.start);
         endDate=findViewById(R.id.end);
+
     }
 
 
@@ -196,13 +200,12 @@ public class Order_Now extends AppCompatActivity {
         o.setO_pcost(milkCost());
         o.setO_fcost(total_mcost());
         helper.insertOrder(o);
-
-        Toast.makeText(this,"Succesfully saved your preference",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Succesfully Placed Your Order",Toast.LENGTH_SHORT).show();
     }
 
     public String getDateTime()
     {
-        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat=new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
         Date date=new Date();
         return dateFormat.format(date);
     }
@@ -211,17 +214,25 @@ public class Order_Now extends AppCompatActivity {
     {
 
         long noOfDays=0;
-        SimpleDateFormat dateFormat=new SimpleDateFormat();
+        SimpleDateFormat dateFormat=new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        String start=startDate.getText().toString();
+        String end=endDate.getText().toString();
+        Date s,e;
         try {
-            Date start = dateFormat.parse(startDate.getText().toString());
-            Date end=dateFormat.parse((endDate.getText().toString()));
-            noOfDays=end.getTime()-start.getTime();
+            s = dateFormat.parse(start);
+            e=dateFormat.parse(end);
+           noOfDays=getUnitBetweenDates(s,e,TimeUnit.DAYS);
         }
         catch(ParseException ex)
         {
             Log.v("Exception",ex.getLocalizedMessage());
         }
         return noOfDays;
+    }
+
+    private long getUnitBetweenDates(Date s, Date e, TimeUnit days) {
+        long timeDiff=e.getTime()-s.getTime();
+        return days.convert(timeDiff,TimeUnit.MILLISECONDS);
     }
 
 

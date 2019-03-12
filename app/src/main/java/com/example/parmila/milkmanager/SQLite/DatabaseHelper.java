@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_O_DAYS="o_days";
     private static final String COLUMN_O_TYPE="o_type";
     private static final String COLUMN_O_QUANTITY="o_quantity";
-    private static final String COLUMN_O_COST_PER_DAY="o_final_cost";
+    private static final String COLUMN_O_COST_PER_DAY="o_per_day_cost";
     private static final String COLUMN_O_FINAL_COST="o_final_cost";
 
 
@@ -91,17 +91,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Order table create
     private static final String O_TABLE_CREATE =" CREATE TABLE "+O_TABLE_NAME+"("+COLUMN_O_ID+" text not null,"
-            +COLUMN_O_DATE+" text not null,"
-            +COLUMN_O_CNAME+" text not null,"
-            +COLUMN_O_CADDR+" text not null,"
-            +COLUMN_O_SNAME+" text not null,"
-            +COLUMN_O_TYPE+ "text not null,"
-            +COLUMN_O_QUANTITY+"integer not null,"
-            +COLUMN_O_SDATE+"text not null,"
-            +COLUMN_O_EDATE+"text not null,"
-            +COLUMN_O_DAYS+"integer not null,"
-            +COLUMN_O_COST_PER_DAY+" integer not null,"
-            +COLUMN_O_FINAL_COST+" integer not null)";
+            +COLUMN_O_DATE+" text ,"
+            +COLUMN_O_CNAME+" text ,"
+            +COLUMN_O_CADDR+" text ,"
+            +COLUMN_O_SNAME+" text ,"
+            +COLUMN_O_TYPE+ "text ,"
+            +COLUMN_O_QUANTITY+"integer,"
+            +COLUMN_O_SDATE+"text ,"
+            +COLUMN_O_EDATE+"text ,"
+            +COLUMN_O_DAYS+"integer ,"
+            +COLUMN_O_COST_PER_DAY+" integer ,"
+            +COLUMN_O_FINAL_COST+" integer )";
 
 
 
