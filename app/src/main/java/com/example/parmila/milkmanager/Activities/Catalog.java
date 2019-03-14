@@ -26,6 +26,8 @@ import com.example.parmila.milkmanager.modules.Seller;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Catalog extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -34,12 +36,19 @@ public class Catalog extends AppCompatActivity {
     private List<Seller> listSeller;
     private SellerRecyclerAdapter sellerRecyclerAdapter;
     private DatabaseHelper helper=new DatabaseHelper(this);
+    //public String current_c_id="";
 
-
+    public String current_c_id= " ";
+    //public String s_email=listSeller.get(5).getS_email();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_catalog);
+
+        Intent intent=getIntent();
+        Bundle extras=intent.getExtras();
+        current_c_id= extras.getString("CID").trim();
         //helper=new DatabaseHelper(this);
         helper.insertMilk();
         initNavigationDrawer();
@@ -58,6 +67,7 @@ public class Catalog extends AppCompatActivity {
     }
 
     private void initObjects() {
+
         listSeller = new ArrayList<>();
         sellerRecyclerAdapter = new SellerRecyclerAdapter(listSeller);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

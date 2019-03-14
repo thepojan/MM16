@@ -63,11 +63,13 @@ public class login extends AppCompatActivity {
            else if(helper.checkCust(email.getText().toString().trim(),password.getText().toString().trim()))
            {
                Intent catalogIntent = new Intent(login.this, Catalog.class);
+               catalogIntent.putExtra("CID",helper.getCustID(email.getText().toString().trim()));
                login.this.startActivity(catalogIntent);
            }
            else if(helper.checkSeller(email.getText().toString().trim(),password.getText().toString().trim()))
             {
                 Intent SellerDashboardIntent = new Intent(login.this, SellerDashboard.class);
+              //  SellerDashboardIntent.putExtra("S-ID",helper.getSellID(email.getText().toString().trim()));
                 login.this.startActivity(SellerDashboardIntent);
             }
 

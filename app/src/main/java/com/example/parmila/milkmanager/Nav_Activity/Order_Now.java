@@ -2,6 +2,7 @@ package com.example.parmila.milkmanager.Nav_Activity;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +19,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parmila.milkmanager.Activities.Catalog;
+import com.example.parmila.milkmanager.Activities.SellerDashboard;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.modules.Customer;
@@ -36,8 +39,8 @@ import java.util.concurrent.TimeUnit;
 public class Order_Now extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener sDateSetListener,eDateSetListener;
     public static final String DATE_FORMAT="d/M/yyyy";
-    Customer c=new Customer();
-    Seller s=new Seller();
+   // Customer c=new Customer();
+    //Seller s=new Seller();
     DatabaseHelper helper=new DatabaseHelper(this);
     RadioGroup type;
     RadioButton Cow,Buffalo;
@@ -92,6 +95,7 @@ public class Order_Now extends AppCompatActivity {
                 startDate.setText(date);
             }
         };
+
         eDateSetListener=new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -100,10 +104,6 @@ public class Order_Now extends AppCompatActivity {
                 endDate.setText(date);
             }
         };
-
-
-
-
 
         cal_cost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +171,7 @@ public class Order_Now extends AppCompatActivity {
 
     public void saveToOrder()
     {
-       Order o=new Order();
+
         int mID=type.getCheckedRadioButtonId();
         String mType=" ";
         if(mID==R.id.cow)
@@ -183,19 +183,27 @@ public class Order_Now extends AppCompatActivity {
             mType="Buffalo";
         }
 
-        //get cust name
-        String cname= String.valueOf(c.getC_fname()+c.getC_lname());
-        String addr=String.valueOf(c.getC_address());
-        String sname=String.valueOf(s.getS_fname()+c.getC_lname());
-       SQLiteDatabase db=helper.getWritableDatabase();
-        o.setO_cname(cname);
+        //get current customer id and seller id
+
+       Catalog ca = new Catalog();
+       String current_c_id=ca.current_c_id;
+         //String current_c_id="C-0";
+
+        String selected_s_id="S-0";
+        String current_cust_name=helper.getCustName(current_c_id);
+        String current_cust_addr=helper.getCustAddr(current_c_id);
+        String curr_s_id=helper.getSellName(selected_s_id);
+
+       //SQLiteDatabase db=helper.getWritableDatabase();
+        Order o=new Order();
+        o.setO_cname(current_cust_name);
         o.setO_date(getDateTime());
-        o.setO_caddr(addr);
-        o.setO_sname(sname);
+        o.setO_caddr(current_cust_addr);
+        o.setO_sname(curr_s_id);
         o.setO_type(mType);
-        o.setO_quantity(Integer.parseInt(quantity.getText().toString()));
-        o.setO_start(startDate.getText().toString());
-        o.setO_end(endDate.getText().toString());
+        o.setO_quantity(Integer.parseInt(quantity.getText().toString().trim()));
+        o.setO_start(startDate.getText().toString().trim());
+        o.setO_end(endDate.getText().toString().trim());
         o.setO_days((int)Days());
         o.setO_pcost(milkCost());
         o.setO_fcost(total_mcost());
@@ -227,7 +235,7 @@ public class Order_Now extends AppCompatActivity {
         {
             Log.v("Exception",ex.getLocalizedMessage());
         }
-        return noOfDays;
+        return (noOfDays+1);
     }
 
     private long getUnitBetweenDates(Date s, Date e, TimeUnit days) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.preference.Preference;
 
 import com.example.parmila.milkmanager.modules.Customer;
@@ -91,17 +92,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Order table create
     private static final String O_TABLE_CREATE =" CREATE TABLE "+O_TABLE_NAME+"("+COLUMN_O_ID+" text not null,"
-            +COLUMN_O_DATE+" text ,"
-            +COLUMN_O_CNAME+" text ,"
-            +COLUMN_O_CADDR+" text ,"
-            +COLUMN_O_SNAME+" text ,"
-            +COLUMN_O_TYPE+ "text ,"
-            +COLUMN_O_QUANTITY+"integer,"
-            +COLUMN_O_SDATE+"text ,"
-            +COLUMN_O_EDATE+"text ,"
-            +COLUMN_O_DAYS+"integer ,"
-            +COLUMN_O_COST_PER_DAY+" integer ,"
-            +COLUMN_O_FINAL_COST+" integer )";
+            +COLUMN_O_DATE+" text not null,"
+            +COLUMN_O_CNAME+" text not null,"
+            +COLUMN_O_CADDR+" text not null,"
+            +COLUMN_O_SNAME+" text not null,"
+            +COLUMN_O_TYPE+ " text not null,"
+            +COLUMN_O_QUANTITY+" integer not null,"
+            +COLUMN_O_SDATE+" text not null,"
+            +COLUMN_O_EDATE+" text not null,"
+            +COLUMN_O_DAYS+" integer not null,"
+            +COLUMN_O_COST_PER_DAY+" integer not null,"
+            +COLUMN_O_FINAL_COST+" integer not null)";
+
+
 
 
 
@@ -285,6 +288,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return custList;
     }
 
+
+    public String getCustID(String email)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return c.getString(0);
+        else
+            return "0";
+    }
+
+    public  String getCustName(String id)
+    {
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return (c.getString(1)+" "+c.getString(2));
+        else
+            return "0";
+    }
+
+    public String getCustAddr(String id)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return (c.getString(4));
+        else
+            return "0";
+    }
+
     //get all seller
     public List<Seller> getAllSeller()
     {
@@ -298,7 +336,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_S_PASS};
         String sortOrder=COLUMN_S_ID+" ASC";
         List<Seller> sellerList= new ArrayList<>();
-
         SQLiteDatabase db=this.getReadableDatabase();
 
         Cursor cursor=db.query(S_TABLE_NAME,columns,null,null,null,null,sortOrder);
@@ -324,6 +361,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sellerList;
     }
 
+    public String getSellID(String email)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+S_TABLE_NAME+" where "+COLUMN_S_EMAIL+ " like '%"+email+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return c.getString(0);
+        else
+            return "0";
+    }
+
+    public  String getSellName(String id)
+    {
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return (c.getString(1)+" "+c.getString(2));
+        else
+            return "0";
+    }
 
     public void updateCust(Customer c)
     {
