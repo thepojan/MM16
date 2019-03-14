@@ -64,6 +64,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_O_COST_PER_DAY="o_per_day_cost";
     private static final String COLUMN_O_FINAL_COST="o_final_cost";
 
+    //Bill table
+    private static String B_TABLE_NAME="Bill";
+    private static final String COLUMN_B_ID="b_id";
+    private static final String COLUMN_B_SNAME="b_s_name";
+    private static final String COLUMN_B_DAYS="b_days";
+    private static final String COLUMN_B_SDATE="b_sdate";
+    private static final String COLUMN_B_EDATE="b_edate";
+    private static final String COLUMN_B_TYPE="b_type";
+    private static final String COLUMN_B_QUANTITY="b_quantity";
+    private static final String COLUMN_B_FINAL_COST="b_final_cost";
+
+    //View Order table
+    private static String V_TABLE_NAME="View_Order";
+    private static final String COLUMN_V_DATE="v_date";
+    private static final String COLUMN_V_TYPE="v_type";
+    private static final String COLUMN_V_QUANTITY="v_quantity";
+    private static final String COLUMN_V_SDATE="v_sdate";
+    private static final String COLUMN_V_EDATE="v_edate";
+    private static final String COLUMN_V_FINAL_COST="v_final_cost";
+
 
 
     // MILK TABLE Creation
@@ -90,6 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +COLUMN_S_EMAIL+" text not null,"
             +COLUMN_S_PASS+" text not null)";
 
+
+
     //Order table create
     private static final String O_TABLE_CREATE =" CREATE TABLE "+O_TABLE_NAME+"("+COLUMN_O_ID+" text not null,"
             +COLUMN_O_DATE+" text not null,"
@@ -104,9 +126,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +COLUMN_O_COST_PER_DAY+" integer not null,"
             +COLUMN_O_FINAL_COST+" integer not null)";
 
+    //Bill table create
+    private static final String B_TABLE_CREATE =" CREATE TABLE "+B_TABLE_NAME+"("+COLUMN_B_ID+" text not null,"
+            +COLUMN_B_SNAME+" text not null,"
+            +COLUMN_B_TYPE+ " text not null,"
+            +COLUMN_B_QUANTITY+" integer not null,"
+            +COLUMN_B_SDATE+" text not null,"
+            +COLUMN_B_EDATE+" text not null,"
+            +COLUMN_B_DAYS+" integer not null,"
+            +COLUMN_B_FINAL_COST+" integer not null)";
 
-
-
+    //View table create
+    private static final String V_TABLE_CREATE =" CREATE TABLE "+V_TABLE_NAME+"("
+            +COLUMN_V_TYPE+ " text not null,"
+            +COLUMN_V_QUANTITY+" integer not null,"
+            +COLUMN_V_SDATE+" text not null,"
+            +COLUMN_V_EDATE+" text not null,"
+            +COLUMN_V_DATE+" text not null,"
+            +COLUMN_V_FINAL_COST+" integer not null)";
 
 
 
@@ -122,6 +159,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Order table drop
     private static final String O_TABLE_DROP="DROP TABLE IF EXISTS "+O_TABLE_NAME;
 
+    //Bill table drop
+    private static final String B_TABLE_DROP="DROP TABLE IF EXISTS "+B_TABLE_NAME;
+
+    //View table drop
+    private static final String V_TABLE_DROP="DROP TABLE IF EXISTS "+V_TABLE_NAME;
+
 
 
     public DatabaseHelper(Context context)
@@ -135,6 +178,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(S_TABLE_CREATE);
         db.execSQL(M_TABLE_CREATE);
         db.execSQL(O_TABLE_CREATE);
+        db.execSQL(B_TABLE_CREATE);
+        db.execSQL(V_TABLE_CREATE);
     }
 
     @Override
@@ -144,6 +189,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(S_TABLE_DROP);
         db.execSQL(M_TABLE_DROP);
         db.execSQL(O_TABLE_DROP);
+        db.execSQL(B_TABLE_DROP);
+        db.execSQL(V_TABLE_DROP);
         onCreate(db);
 
     }
