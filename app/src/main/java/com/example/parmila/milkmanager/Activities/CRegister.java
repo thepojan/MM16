@@ -1,6 +1,8 @@
 package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.R;
+import com.example.parmila.milkmanager.SessionManager;
 import com.example.parmila.milkmanager.modules.Customer;
 
 public class CRegister extends AppCompatActivity {
@@ -20,6 +23,8 @@ public class CRegister extends AppCompatActivity {
     private Button reg_c_btn;
 
     String fname,lname,phone,address,pin,email,pass,cpass;
+
+    //SessionManager session;
 
 
     @SuppressLint("WrongViewCast")
@@ -36,6 +41,8 @@ public class CRegister extends AppCompatActivity {
         reg_c_pwd=findViewById(R.id.reg_c_pwd);
         reg_c_confirm_pwd=findViewById(R.id.reg_c_confirm_pwd);
         reg_c_btn=findViewById(R.id.reg_c_confirm_button);
+
+
 
 
 
@@ -60,7 +67,10 @@ public class CRegister extends AppCompatActivity {
            }
 
        }
-       else Toast.makeText(this,"Registration failed!",Toast.LENGTH_SHORT).show();
+       else
+       {
+           Toast.makeText(this,"Registration failed!",Toast.LENGTH_SHORT).show();
+       }
    }
 
    public void initialize()
@@ -85,6 +95,7 @@ public class CRegister extends AppCompatActivity {
            c.setC_email(email);
            c.setC_pass(pass);
            dbHelper.insertCustomer(c);
+
            Toast.makeText(this, "Registered Successfully!!", Toast.LENGTH_SHORT).show();
    }
 

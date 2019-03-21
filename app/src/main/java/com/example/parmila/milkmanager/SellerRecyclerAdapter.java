@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.parmila.milkmanager.Activities.Catalog;
@@ -15,17 +17,20 @@ import com.example.parmila.milkmanager.Nav_Activity.Order_Now;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.modules.Seller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAdapter.SellerViewHolder>
+public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAdapter.SellerViewHolder> implements Filterable
 
 {
     //Catalog ca=new Catalog();
     //String s_email=" ";
    // DatabaseHelper helper;
     private List<Seller> listSeller;
+    private List<Seller> seller_list;
     public SellerRecyclerAdapter(List<Seller> listSeller) {
         this.listSeller = listSeller;
+        seller_list=new ArrayList<>(listSeller);
     }
 
     @Override
@@ -48,6 +53,48 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
         Log.v(SellerRecyclerAdapter.class.getSimpleName(),""+listSeller.size());
         return listSeller.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter_list;
+    }
+
+    private Filter filter_list=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Seller> filteredList=new ArrayList<>();
+
+            if(constraint==null|| constraint.length()==0)
+            {
+                filteredList.addAll(seller_list);
+            }
+            else
+            {
+                String filteredPattern=constraint.toString().toLowerCase().trim();
+
+                for(Seller item: seller_list)
+                {
+                    if((item.getS_fname()+" "+item.getS_lname()).toLowerCase().contains(filteredPattern))
+                    {
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results =new FilterResults();
+            results.values=filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            listSeller.clear();
+            listSeller.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
 
     public class SellerViewHolder extends RecyclerView.ViewHolder {
         public TextView name,phone, area, email ;
@@ -72,7 +119,5 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
         }
 
     }
-
-
 
 }

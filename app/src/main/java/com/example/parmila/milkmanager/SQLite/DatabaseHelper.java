@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.strictmode.SqliteObjectLeakedViolation;
-import android.preference.Preference;
 
+import com.example.parmila.milkmanager.modules.Bill;
 import com.example.parmila.milkmanager.modules.Customer;
 import com.example.parmila.milkmanager.modules.Order;
+import com.example.parmila.milkmanager.modules.View_Order;
 import com.example.parmila.milkmanager.modules.Seller;
 
 import java.util.ArrayList;
@@ -293,6 +293,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    //insert bill record
+    public void insertBill(Bill b)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+
+        //generating unique customer id
+        String query="Select * FROM "+B_TABLE_NAME;
+
+        Cursor cursor=db.rawQuery(query,null);
+        String b_id="B-"+Integer.toString(cursor.getCount());
+        cursor.close();
+
+        //inserting a record
+        values.put(COLUMN_B_ID,b_id);
+        values.put(COLUMN_B_SNAME,b.getB_sname());
+        values.put(COLUMN_B_TYPE, b.getB_type());
+        values.put(COLUMN_B_QUANTITY,b.getB_qtty());
+        values.put(COLUMN_B_SDATE,b.getB_start());
+        values.put(COLUMN_B_EDATE, b.getB_end());
+        values.put(COLUMN_B_DAYS,b.getB_days());
+        values.put(COLUMN_B_FINAL_COST,b.getB_fcost());
+        db.insert(B_TABLE_NAME,null,values);
+        db.close();
+    }
+
+
+    //insert View Order list
+    public void insertReport(View_Order r)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+
+        //generating unique customer id
+        String query="Select * FROM "+V_TABLE_NAME;
+
+        Cursor cursor=db.rawQuery(query,null);
+
+        cursor.close();
+
+        //inserting a record
+        values.put(COLUMN_V_TYPE, r.getV_type());
+        values.put(COLUMN_V_QUANTITY,r.getV_qtty());
+        values.put(COLUMN_V_SDATE,r.getV_start());
+        values.put(COLUMN_V_EDATE, r.getV_end());
+        values.put(COLUMN_V_DATE,r.getV_date());
+        values.put(COLUMN_V_FINAL_COST,r.getV_fcost());
+        db.insert(V_TABLE_NAME,null,values);
+        db.close();
+    }
+
+
     
     
     public List<Customer> getAllCust()
@@ -407,6 +460,88 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return sellerList;
     }
+
+
+    public List<Bill> getAllBills()
+    {
+        String[] columns= {
+                COLUMN_B_ID,
+                COLUMN_B_SNAME,
+                COLUMN_B_TYPE,
+                COLUMN_B_QUANTITY,
+                COLUMN_B_SDATE,
+                COLUMN_B_EDATE,
+                COLUMN_B_DAYS,
+                COLUMN_B_FINAL_COST
+        };
+
+        String sortOrder=COLUMN_B_ID+" DESC";
+        List<Bill> billList= new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(B_TABLE_NAME,columns,null,null,null,null,sortOrder);
+
+        if(cursor.moveToFirst())
+        {
+            do{
+                Bill b=new Bill();
+                b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_ID)));
+                b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_SNAME)));
+                b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_TYPE)));
+                b.setB_qtty(cursor.getInt(cursor.getColumnIndex(COLUMN_B_QUANTITY)));
+                b.setB_start(cursor.getString(cursor.getColumnIndex(COLUMN_B_SDATE)));
+                b.setB_end(cursor.getString(cursor.getColumnIndex(COLUMN_B_EDATE)));
+                b.setB_days(cursor.getInt(cursor.getColumnIndex(COLUMN_B_DAYS)));
+                b.setB_fcost(cursor.getInt(cursor.getColumnIndex(COLUMN_B_FINAL_COST)));
+                billList.add(b);
+            }while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        db.close();
+        return billList;
+    }
+
+
+    public List<View_Order> getAllOrders()
+    {
+        String[] columns= {
+
+                COLUMN_V_TYPE,
+                COLUMN_V_QUANTITY,
+                COLUMN_V_SDATE,
+                COLUMN_V_EDATE,
+                COLUMN_V_DATE,
+                COLUMN_V_FINAL_COST
+        };
+
+        String sortOrder=COLUMN_V_DATE+" DESC";
+        List<View_Order> orderList= new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(V_TABLE_NAME,columns,null,null,null,null,sortOrder);
+
+        if(cursor.moveToFirst())
+        {
+            do{
+                View_Order v=new View_Order();
+                v.setV_type(cursor.getString(cursor.getColumnIndex(COLUMN_V_TYPE)));
+                v.setV_qtty(cursor.getInt(cursor.getColumnIndex(COLUMN_V_QUANTITY)));
+                v.setV_start(cursor.getString(cursor.getColumnIndex(COLUMN_V_SDATE)));
+                v.setV_end(cursor.getString(cursor.getColumnIndex(COLUMN_V_EDATE)));
+                v.setV_date(cursor.getString(cursor.getColumnIndex(COLUMN_V_DATE)));
+                v.setV_fcost(cursor.getInt(cursor.getColumnIndex(COLUMN_V_FINAL_COST)));
+                orderList.add(v);
+            }while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        db.close();
+        return orderList;
+    }
+
+
+
 
     public String getSellID(String email)
     {

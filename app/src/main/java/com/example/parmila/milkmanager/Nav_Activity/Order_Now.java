@@ -20,12 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parmila.milkmanager.Activities.Catalog;
-import com.example.parmila.milkmanager.Activities.SellerDashboard;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.R;
-import com.example.parmila.milkmanager.modules.Customer;
+import com.example.parmila.milkmanager.modules.Bill;
 import com.example.parmila.milkmanager.modules.Order;
-import com.example.parmila.milkmanager.modules.Seller;
+import com.example.parmila.milkmanager.modules.View_Order;
 
 
 import java.text.ParseException;
@@ -110,8 +109,8 @@ public class Order_Now extends AppCompatActivity {
             public void onClick(View v) {
                 String per_cost=Integer.toString(milkCost());
                 String total_cost=Integer.toString(total_mcost());
-                Total_Cost.setText(total_cost);
-                perDayCost.setText(per_cost);
+                Total_Cost.setText("\u20B9"+total_cost);
+                perDayCost.setText("\u20B9"+per_cost);
             }
         });
 
@@ -185,8 +184,7 @@ public class Order_Now extends AppCompatActivity {
 
         //get current customer id and seller id
 
-       Catalog ca = new Catalog();
-       String current_c_id=ca.current_c_id;
+       String current_c_id="";
          //String current_c_id="C-0";
 
         String selected_s_id="S-0";
@@ -209,6 +207,27 @@ public class Order_Now extends AppCompatActivity {
         o.setO_fcost(total_mcost());
         helper.insertOrder(o);
         Toast.makeText(this,"Succesfully Placed Your Order",Toast.LENGTH_SHORT).show();
+
+
+        Bill b=new Bill();
+        b.setB_days((int)Days());
+        b.setB_start(startDate.getText().toString().trim());
+        b.setB_end(endDate.getText().toString().trim());
+        b.setB_type(mType);
+        b.setB_qtty(Integer.parseInt(quantity.getText().toString().trim()));
+        b.setB_sname(curr_s_id);
+        b.setB_fcost(total_mcost());
+        helper.insertBill(b);
+
+
+        View_Order v=new View_Order();
+        v.setV_date(getDateTime());
+        v.setV_type(mType);
+        v.setV_qtty(Integer.parseInt(quantity.getText().toString().trim()));
+        v.setV_start(startDate.getText().toString().trim());
+        v.setV_end(endDate.getText().toString().trim());
+        v.setV_fcost(total_mcost());
+        helper.insertReport(v);
     }
 
     public String getDateTime()

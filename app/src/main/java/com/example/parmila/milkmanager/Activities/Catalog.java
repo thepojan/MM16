@@ -10,8 +10,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.parmila.milkmanager.Nav_Activity.Bills;
@@ -21,9 +25,11 @@ import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.SellerRecyclerAdapter;
 import com.example.parmila.milkmanager.Nav_Activity.Setting;
 import com.example.parmila.milkmanager.Nav_Activity.View_Orders;
+import com.example.parmila.milkmanager.SessionManager;
 import com.example.parmila.milkmanager.modules.Seller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -36,31 +42,33 @@ public class Catalog extends AppCompatActivity {
     private List<Seller> listSeller;
     private SellerRecyclerAdapter sellerRecyclerAdapter;
     private DatabaseHelper helper=new DatabaseHelper(this);
-    //public String current_c_id="";
 
-    public String current_c_id= " ";
-    //public String s_email=listSeller.get(5).getS_email();
-    @Override
+    SessionManager shm;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_catalog);
-
-        Intent intent=getIntent();
-        Bundle extras=intent.getExtras();
-        current_c_id= extras.getString("CID").trim();
-        //helper=new DatabaseHelper(this);
         helper.insertMilk();
         initNavigationDrawer();
         mDrawerLayout = findViewById(R.id.draw);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         initViews();
         initObjects();
+
     }
+    protected void onStart()
+    {
+        super.onStart();
+        shm=new SessionManager(getApplicationContext());
+    }
+
 
     private void initViews() {
         recyclerSellerView = findViewById(R.id.recyclerViewSeller);
@@ -71,9 +79,11 @@ public class Catalog extends AppCompatActivity {
         listSeller = new ArrayList<>();
         sellerRecyclerAdapter = new SellerRecyclerAdapter(listSeller);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        DividerItemDecoration divider=new DividerItemDecoration(this,((LinearLayoutManager) mLayoutManager).getOrientation());
         recyclerSellerView.setLayoutManager(mLayoutManager);
         recyclerSellerView.setItemAnimator(new DefaultItemAnimator());
         recyclerSellerView.setHasFixedSize(true);
+        recyclerSellerView.addItemDecoration(divider);
         recyclerSellerView.setAdapter(sellerRecyclerAdapter);
         helper = new DatabaseHelper(this);
         getDataFromSQLite();
@@ -125,9 +135,14 @@ public class Catalog extends AppCompatActivity {
                         break;
 
                     case R.id.Log_out:
-                        intent=new Intent(Catalog.this,login.class);
-                        startActivity(intent);
-                        break;
+                        onStart();
+                        if(!shm.login()) {
+                            intent = new Intent(Catalog.this, login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            break;
+                        }
                 }
                 return true;
             }
@@ -141,5 +156,27 @@ public class Catalog extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.search_bar,menu);
+        MenuItem searchItem=menu.findItem(R.id.action_search);
+        SearchView searchView =(SearchView)searchItem.getActionView();
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                 sellerRecyclerAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        return true;
+    }
 }
 

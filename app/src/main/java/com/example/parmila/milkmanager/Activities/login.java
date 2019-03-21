@@ -1,7 +1,9 @@
 package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.R;
+import com.example.parmila.milkmanager.SessionManager;
 
 public class login extends AppCompatActivity {
     DatabaseHelper helper=new DatabaseHelper(this);
@@ -62,14 +65,17 @@ public class login extends AppCompatActivity {
 
            else if(helper.checkCust(email.getText().toString().trim(),password.getText().toString().trim()))
            {
-               Intent catalogIntent = new Intent(login.this, Catalog.class);
-               catalogIntent.putExtra("CID",helper.getCustID(email.getText().toString().trim()));
-               login.this.startActivity(catalogIntent);
+               //finish();
+                    SessionManager shm=new SessionManager(getApplicationContext());
+                    shm.secondTime();
+                   Intent catalogIntent = new Intent(login.this, Catalog.class);
+                   login.this.startActivity(catalogIntent);
+
            }
            else if(helper.checkSeller(email.getText().toString().trim(),password.getText().toString().trim()))
             {
                 Intent SellerDashboardIntent = new Intent(login.this, SellerDashboard.class);
-              //  SellerDashboardIntent.putExtra("S-ID",helper.getSellID(email.getText().toString().trim()));
+              SellerDashboardIntent.putExtra("S-ID",helper.getSellID(email.getText().toString().trim()));
                 login.this.startActivity(SellerDashboardIntent);
             }
 

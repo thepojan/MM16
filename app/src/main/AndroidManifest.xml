@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.login">
+        <activity android:name=".Activities.login" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.Catalog" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".Activities.Catalog" android:theme="@style/AppTheme.ActionBar"></activity>
         <activity android:name=".Activities.SRegister" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Activities.CRegister" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Activities.RegisterType" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
@@ -25,6 +25,9 @@
         <activity android:name=".Nav_Activity.Order_Now" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Nav_Activity.Setting" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Nav_Activity.View_Orders" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".Nav_Activity.Bill_Details" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".Nav_Activity.Order_Detail" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 
 </manifest>
