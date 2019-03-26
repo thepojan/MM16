@@ -11,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.parmila.milkmanager.Activities.Catalog;
 import com.example.parmila.milkmanager.OrderRecyclerAdapter;
 import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
@@ -24,6 +25,13 @@ public class View_Orders extends AppCompatActivity implements OrderRecyclerAdapt
     private List<View_Order> listOrder;
     private OrderRecyclerAdapter orderRecyclerAdapter;
     private DatabaseHelper helper = new DatabaseHelper(this);
+
+
+    Catalog c= new Catalog();
+    String cEmail=c.email;
+    Order_Now o_n=new Order_Now();
+    String sEmail=o_n.s_email;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,11 +72,15 @@ public class View_Orders extends AppCompatActivity implements OrderRecyclerAdapt
     @SuppressLint("StaticFieldLeak")
     private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
+
+        final String cname=helper.getCustName(cEmail);
+        final String sname=helper.getSellName(sEmail);
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 listOrder.clear();
-                listOrder.addAll(helper.getAllOrders());
+                listOrder.addAll(helper.getAllOrders(cname,sname));
                 return null;
             }
 

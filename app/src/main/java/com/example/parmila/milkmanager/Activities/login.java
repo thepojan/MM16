@@ -66,16 +66,21 @@ public class login extends AppCompatActivity {
            else if(helper.checkCust(email.getText().toString().trim(),password.getText().toString().trim()))
            {
                //finish();
+                    String email1,pass1;
+                    email1=email.getText().toString().trim();
+                    pass1=password.getText().toString().trim();
                     SessionManager shm=new SessionManager(getApplicationContext());
                     shm.secondTime();
                    Intent catalogIntent = new Intent(login.this, Catalog.class);
+                   catalogIntent.putExtra("C_Email",email1);
                    login.this.startActivity(catalogIntent);
 
            }
            else if(helper.checkSeller(email.getText().toString().trim(),password.getText().toString().trim()))
             {
+
                 Intent SellerDashboardIntent = new Intent(login.this, SellerDashboard.class);
-              SellerDashboardIntent.putExtra("S-ID",helper.getSellID(email.getText().toString().trim()));
+               // SellerDashboardIntent.putExtra("S-Email",email1);
                 login.this.startActivity(SellerDashboardIntent);
             }
 

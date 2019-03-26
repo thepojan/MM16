@@ -2,9 +2,24 @@ package com.example.parmila.milkmanager.modules;
 
 public class View_Order {
 
-    String v_type,v_start,v_end,v_date;
+    String v_type,v_start,v_end,v_date, v_cname, v_sname;
     int v_fcost,v_qtty;
 
+    public void setV_cname(String v_cname) {
+        this.v_cname = v_cname;
+    }
+
+    public String getV_cname() {
+        return v_cname;
+    }
+
+    public void setV_sname(String v_sname) {
+        this.v_sname = v_sname;
+    }
+
+    public String getV_sname() {
+        return v_sname;
+    }
 
     public void setV_type(String v_type) {
         this.v_type = v_type;

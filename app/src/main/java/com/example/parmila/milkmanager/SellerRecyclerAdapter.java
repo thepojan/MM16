@@ -58,7 +58,6 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
     public Filter getFilter() {
         return filter_list;
     }
-
     private Filter filter_list=new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -89,7 +88,7 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            listSeller.clear();
+            //listSeller.clear();
             listSeller.addAll((List)results.values);
             notifyDataSetChanged();
         }
@@ -107,17 +106,18 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
             area =  view.findViewById(R.id.area);
             order=view.findViewById(R.id.order);
             email=view.findViewById(R.id.email);
+
             order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position=getAdapterPosition();
+                    final String s_email=listSeller.get(position).getS_email();
                     Intent orderIntent=new Intent(view.getContext(),Order_Now.class);
-                   // orderIntent.putExtra("S-ID",helper.getSellID(s_email));
+                    orderIntent.putExtra("S_Email",s_email);
                     view.getContext().startActivity(orderIntent);
                 }
             });
         }
-
     }
 
 }

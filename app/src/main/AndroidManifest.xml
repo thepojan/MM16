@@ -27,7 +27,7 @@
         <activity android:name=".Nav_Activity.View_Orders" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Nav_Activity.Bill_Details" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".Nav_Activity.Order_Detail" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+        <activity android:name=".Delete" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

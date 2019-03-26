@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.parmila.milkmanager.modules.Bill;
 import com.example.parmila.milkmanager.modules.Customer;
@@ -68,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String B_TABLE_NAME="Bill";
     private static final String COLUMN_B_ID="b_id";
     private static final String COLUMN_B_SNAME="b_s_name";
+    private static final String COLUMN_B_CNAME="b_c_name";
     private static final String COLUMN_B_DAYS="b_days";
     private static final String COLUMN_B_SDATE="b_sdate";
     private static final String COLUMN_B_EDATE="b_edate";
@@ -78,6 +80,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //View Order table
     private static String V_TABLE_NAME="View_Order";
     private static final String COLUMN_V_DATE="v_date";
+    private static final String COLUMN_V_SNAME="v_sname";
+    private static final String COLUMN_V_CNAME="v_cname";
     private static final String COLUMN_V_TYPE="v_type";
     private static final String COLUMN_V_QUANTITY="v_quantity";
     private static final String COLUMN_V_SDATE="v_sdate";
@@ -129,6 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Bill table create
     private static final String B_TABLE_CREATE =" CREATE TABLE "+B_TABLE_NAME+"("+COLUMN_B_ID+" text not null,"
             +COLUMN_B_SNAME+" text not null,"
+            +COLUMN_B_CNAME+" text not null,"
             +COLUMN_B_TYPE+ " text not null,"
             +COLUMN_B_QUANTITY+" integer not null,"
             +COLUMN_B_SDATE+" text not null,"
@@ -139,6 +144,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //View table create
     private static final String V_TABLE_CREATE =" CREATE TABLE "+V_TABLE_NAME+"("
             +COLUMN_V_TYPE+ " text not null,"
+            +COLUMN_V_SNAME+ " text not null,"
+            +COLUMN_V_CNAME+ " text not null,"
             +COLUMN_V_QUANTITY+" integer not null,"
             +COLUMN_V_SDATE+" text not null,"
             +COLUMN_V_EDATE+" text not null,"
@@ -310,6 +317,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //inserting a record
         values.put(COLUMN_B_ID,b_id);
         values.put(COLUMN_B_SNAME,b.getB_sname());
+        values.put(COLUMN_B_CNAME, b.getB_cname());
         values.put(COLUMN_B_TYPE, b.getB_type());
         values.put(COLUMN_B_QUANTITY,b.getB_qtty());
         values.put(COLUMN_B_SDATE,b.getB_start());
@@ -336,6 +344,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //inserting a record
         values.put(COLUMN_V_TYPE, r.getV_type());
+        values.put(COLUMN_V_CNAME,r.getV_cname());
+        values.put(COLUMN_V_SNAME,r.getV_sname());
         values.put(COLUMN_V_QUANTITY,r.getV_qtty());
         values.put(COLUMN_V_SDATE,r.getV_start());
         values.put(COLUMN_V_EDATE, r.getV_end());
@@ -389,7 +399,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public String getCustID(String email)
+ /*   public String getCustID(String email)
     {
         SQLiteDatabase db=this.getReadableDatabase();
         String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
@@ -398,13 +408,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return c.getString(0);
         else
             return "0";
-    }
+    }*/
 
-    public  String getCustName(String id)
+    public  String getCustName(String email)
     {
+        String TAG="DB";
+        Log.d(TAG,"Cust Email"+email);
+
 
         SQLiteDatabase db=this.getReadableDatabase();
-        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
         Cursor c=db.rawQuery(where,null);
         if(c.getCount()>0 && c.moveToNext())
             return (c.getString(1)+" "+c.getString(2));
@@ -412,13 +425,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return "0";
     }
 
-    public String getCustAddr(String id)
+    public String getCustAddr(String email)
     {
+        String TAG="DB";
+        Log.d(TAG,"Cust Email"+email);
+
         SQLiteDatabase db=this.getReadableDatabase();
-        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
         Cursor c=db.rawQuery(where,null);
         if(c.getCount()>0 && c.moveToNext())
             return (c.getString(4));
+        else
+            return "0";
+    }
+
+    public String getCustPhone(String email)
+    {
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return (c.getString(3));
+        else
+            return "0";
+    }
+
+    public String getCustZip(String email)
+    {
+
+        SQLiteDatabase db=this.getReadableDatabase();
+        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_EMAIL+ " like '%"+email+"%'";
+        Cursor c=db.rawQuery(where,null);
+        if(c.getCount()>0 && c.moveToNext())
+            return (c.getString(3));
         else
             return "0";
     }
@@ -462,7 +502,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<Bill> getAllBills()
+  /*  public List<Bill> getAllBills()
     {
         String[] columns= {
                 COLUMN_B_ID,
@@ -495,19 +535,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 b.setB_fcost(cursor.getInt(cursor.getColumnIndex(COLUMN_B_FINAL_COST)));
                 billList.add(b);
             }while (cursor.moveToNext());
-
         }
+
         cursor.close();
         db.close();
         return billList;
-    }
+    }*/
 
 
-    public List<View_Order> getAllOrders()
+  public List<Bill> getAllBills(String cname, String sname)
+  {
+
+      Log.d("DB:",cname+" : "+sname);
+
+      String[] columns= {
+              COLUMN_B_ID,
+              COLUMN_B_SNAME,
+              COLUMN_B_CNAME,
+              COLUMN_B_TYPE,
+              COLUMN_B_QUANTITY,
+              COLUMN_B_SDATE,
+              COLUMN_B_EDATE,
+              COLUMN_B_DAYS,
+              COLUMN_B_FINAL_COST
+      };
+
+     String sortOrder=COLUMN_B_ID+" DESC";
+      List<Bill> billList= new ArrayList<>();
+      SQLiteDatabase db=this.getReadableDatabase();
+
+      Cursor cursor=db.query(B_TABLE_NAME,columns,COLUMN_B_CNAME +"='"+cname+"' AND "+
+              COLUMN_B_SNAME+"='"+sname+"'", null ,null,null,sortOrder);
+
+      if(cursor.moveToFirst())
+      {
+          do{
+              Bill b=new Bill();
+              b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_ID)));
+              b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_SNAME)));
+              b.setB_cname(cursor.getString(cursor.getColumnIndex(COLUMN_B_CNAME)));
+              b.setB_sname(cursor.getString(cursor.getColumnIndex(COLUMN_B_TYPE)));
+              b.setB_qtty(cursor.getInt(cursor.getColumnIndex(COLUMN_B_QUANTITY)));
+              b.setB_start(cursor.getString(cursor.getColumnIndex(COLUMN_B_SDATE)));
+              b.setB_end(cursor.getString(cursor.getColumnIndex(COLUMN_B_EDATE)));
+              b.setB_days(cursor.getInt(cursor.getColumnIndex(COLUMN_B_DAYS)));
+              b.setB_fcost(cursor.getInt(cursor.getColumnIndex(COLUMN_B_FINAL_COST)));
+              billList.add(b);
+          }while (cursor.moveToNext());
+      }
+
+      cursor.close();
+      db.close();
+      return billList;
+  }
+
+
+
+
+    public List<View_Order> getAllOrders(String cname, String sname)
     {
-        String[] columns= {
 
+        Log.d("GetAllOrder:",cname+" : "+sname);
+
+        String[] columns= {
                 COLUMN_V_TYPE,
+                COLUMN_V_CNAME,
+                COLUMN_V_SNAME,
                 COLUMN_V_QUANTITY,
                 COLUMN_V_SDATE,
                 COLUMN_V_EDATE,
@@ -519,13 +612,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<View_Order> orderList= new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
 
-        Cursor cursor=db.query(V_TABLE_NAME,columns,null,null,null,null,sortOrder);
+        Cursor cursor=db.query(V_TABLE_NAME,columns,COLUMN_V_CNAME +"='"+cname+"' AND "+
+                COLUMN_V_SNAME+"='"+sname+"'",null,null,null,sortOrder);
 
         if(cursor.moveToFirst())
         {
             do{
                 View_Order v=new View_Order();
+
                 v.setV_type(cursor.getString(cursor.getColumnIndex(COLUMN_V_TYPE)));
+                v.setV_cname(cursor.getString(cursor.getColumnIndex(COLUMN_V_CNAME)));
+                v.setV_sname(cursor.getString(cursor.getColumnIndex(COLUMN_V_SNAME)));
                 v.setV_qtty(cursor.getInt(cursor.getColumnIndex(COLUMN_V_QUANTITY)));
                 v.setV_start(cursor.getString(cursor.getColumnIndex(COLUMN_V_SDATE)));
                 v.setV_end(cursor.getString(cursor.getColumnIndex(COLUMN_V_EDATE)));
@@ -542,23 +639,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
-    public String getSellID(String email)
+    public  String getSellName(String email)
     {
+        String TAG="DB";
+        Log.d(TAG,"Seller Email"+email);
+
         SQLiteDatabase db=this.getReadableDatabase();
         String where="Select * from "+S_TABLE_NAME+" where "+COLUMN_S_EMAIL+ " like '%"+email+"%'";
-        Cursor c=db.rawQuery(where,null);
-        if(c.getCount()>0 && c.moveToNext())
-            return c.getString(0);
-        else
-            return "0";
-    }
-
-    public  String getSellName(String id)
-    {
-
-        SQLiteDatabase db=this.getReadableDatabase();
-        String where="Select * from "+C_TABLE_NAME+" where "+COLUMN_C_ID+ " like '%"+id+"%'";
         Cursor c=db.rawQuery(where,null);
         if(c.getCount()>0 && c.moveToNext())
             return (c.getString(1)+" "+c.getString(2));
@@ -566,29 +653,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return "0";
     }
 
-    public void updateCust(Customer c)
+    public void updateCust(String cemail, String addr, String phone, String zip)
     {
+       // Customer c=new Customer();
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(COLUMN_C_FNAME, c.getC_fname());
-        values.put(COLUMN_C_LNAME, c.getC_lname());
-        values.put(COLUMN_C_PHONE,c.getC_phone());
-        values.put(COLUMN_C_ADDR,c.getC_address());
-        values.put(COLUMN_C_PIN,c.getC_pin());
-        values.put(COLUMN_C_EMAIL,c.getC_email());
-        values.put(COLUMN_C_PASS,c.getC_pass());
+       // values.put(COLUMN_C_FNAME, c.getC_fname());
+       // values.put(COLUMN_C_LNAME, c.getC_lname());
+        values.put(COLUMN_C_PHONE,phone);
+        values.put(COLUMN_C_ADDR,addr);
+        values.put(COLUMN_C_PIN,zip);
+       // values.put(COLUMN_C_EMAIL,c.getC_email());
+      //  values.put(COLUMN_C_PASS,c.getC_pass());
 
-        db.update(C_TABLE_NAME,values,COLUMN_C_ID +" = ?",
-                new String[]{String.valueOf(c.getC_id())});
+        db.update(C_TABLE_NAME,values,COLUMN_C_EMAIL +" ='"+cemail+"'", null);
         db.close();
     }
 
-    public void deleteUser(Customer c)
+    public void deleteCust(String cemail)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-
-        db.delete(C_TABLE_NAME,COLUMN_C_ID +" = ?",
-                new String[]{String.valueOf(c.getC_id())});
+        db.delete(C_TABLE_NAME,COLUMN_C_EMAIL +" = '"+cemail+"'",null);
         db.close();
     }
 

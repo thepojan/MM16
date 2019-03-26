@@ -2,6 +2,7 @@ package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -95,8 +96,10 @@ public class CRegister extends AppCompatActivity {
            c.setC_email(email);
            c.setC_pass(pass);
            dbHelper.insertCustomer(c);
-
            Toast.makeText(this, "Registered Successfully!!", Toast.LENGTH_SHORT).show();
+
+           Intent i=new Intent(this,login.class);
+           startActivity(i);
    }
 
    public boolean isValid()

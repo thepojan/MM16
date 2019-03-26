@@ -10,7 +10,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
+import com.example.parmila.milkmanager.Activities.Catalog;
 import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.BillRecyclerAdapter;
@@ -24,6 +26,11 @@ public class Bills extends AppCompatActivity implements BillRecyclerAdapter.OnBi
     private List<Bill> listBill;
     private BillRecyclerAdapter billRecyclerAdapter;
     private DatabaseHelper helper = new DatabaseHelper(this);
+
+    Catalog c= new Catalog();
+    String cEmail=c.email;
+    Order_Now o_n=new Order_Now();
+    String sEmail=o_n.s_email;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,11 +70,17 @@ public class Bills extends AppCompatActivity implements BillRecyclerAdapter.OnBi
     @SuppressLint("StaticFieldLeak")
     private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
+
+        final String cname=helper.getCustName(cEmail);
+        final String sname=helper.getSellName(sEmail);
+
+        Log.d("Bill:",cname+" : "+sname);
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 listBill.clear();
-                listBill.addAll(helper.getAllBills());
+                listBill.addAll(helper.getAllBills(cname,sname));
                 return null;
             }
 

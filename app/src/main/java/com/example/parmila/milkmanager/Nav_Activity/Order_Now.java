@@ -38,19 +38,30 @@ import java.util.concurrent.TimeUnit;
 public class Order_Now extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener sDateSetListener,eDateSetListener;
     public static final String DATE_FORMAT="d/M/yyyy";
-   // Customer c=new Customer();
-    //Seller s=new Seller();
+
     DatabaseHelper helper=new DatabaseHelper(this);
     RadioGroup type;
     RadioButton Cow,Buffalo;
     EditText quantity;
     Button cal_cost, Submit;
     TextView Total_Cost, startDate,endDate,perDayCost;
+
+    Catalog c= c=new Catalog();
+    String cust_email=c.email;
+    public static String s_email;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_now);
+
+        Intent i=getIntent();
+        s_email=i.getStringExtra("S_Email");
+        String TAG="Order_Now";
+        Log.d(TAG,"Seller Email"+s_email);
+
+        Log.d(TAG,"Customer Email"+cust_email);
         initViews();
+
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +74,7 @@ public class Order_Now extends AppCompatActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         sDateSetListener,
                         year,month,day);
+                dialog.getDatePicker().setMinDate(new Date().getTime() +24*60*60*1000);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -81,6 +93,7 @@ public class Order_Now extends AppCompatActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         eDateSetListener,
                         year,month,day);
+                dialog.getDatePicker().setMinDate(new Date().getTime() +24*60*60*1000);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -181,23 +194,26 @@ public class Order_Now extends AppCompatActivity {
         {
             mType="Buffalo";
         }
+        String TAG="Order_Now";
+
+        Log.d(TAG,"get Seller Email"+s_email);
+
+        Log.d(TAG,"get Customer Email"+cust_email);
 
         //get current customer id and seller id
 
-       String current_c_id="";
-         //String current_c_id="C-0";
+        String current_c_name=helper.getCustName(cust_email);
+        String current_c_addr=helper.getCustAddr(cust_email);
 
-        String selected_s_id="S-0";
-        String current_cust_name=helper.getCustName(current_c_id);
-        String current_cust_addr=helper.getCustAddr(current_c_id);
-        String curr_s_id=helper.getSellName(selected_s_id);
+       // String selected_s_id="S-0";
+        String curr_s_name=helper.getSellName(s_email);
 
        //SQLiteDatabase db=helper.getWritableDatabase();
         Order o=new Order();
-        o.setO_cname(current_cust_name);
+        o.setO_cname(current_c_name);
         o.setO_date(getDateTime());
-        o.setO_caddr(current_cust_addr);
-        o.setO_sname(curr_s_id);
+        o.setO_caddr(current_c_addr);
+        o.setO_sname(curr_s_name);
         o.setO_type(mType);
         o.setO_quantity(Integer.parseInt(quantity.getText().toString().trim()));
         o.setO_start(startDate.getText().toString().trim());
@@ -215,7 +231,8 @@ public class Order_Now extends AppCompatActivity {
         b.setB_end(endDate.getText().toString().trim());
         b.setB_type(mType);
         b.setB_qtty(Integer.parseInt(quantity.getText().toString().trim()));
-        b.setB_sname(curr_s_id);
+        b.setB_sname(curr_s_name);
+        b.setB_cname(current_c_name);
         b.setB_fcost(total_mcost());
         helper.insertBill(b);
 
@@ -223,6 +240,8 @@ public class Order_Now extends AppCompatActivity {
         View_Order v=new View_Order();
         v.setV_date(getDateTime());
         v.setV_type(mType);
+        v.setV_cname(current_c_name);
+        v.setV_sname(curr_s_name);
         v.setV_qtty(Integer.parseInt(quantity.getText().toString().trim()));
         v.setV_start(startDate.getText().toString().trim());
         v.setV_end(endDate.getText().toString().trim());

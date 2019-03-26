@@ -2,7 +2,7 @@ package com.example.parmila.milkmanager.modules;
 
 public class Bill {
 
-    String b_id,b_sname,b_type,b_start,b_end;
+    String b_id,b_sname,b_type,b_start,b_end, b_cname;
     int b_qtty,b_days,b_fcost;
 
     public void setB_id(String b_id) {
@@ -11,6 +11,14 @@ public class Bill {
 
     public String getB_id() {
         return b_id;
+    }
+
+    public void setB_cname(String b_cname) {
+        this.b_cname = b_cname;
+    }
+
+    public String getB_cname() {
+        return b_cname;
     }
 
     public void setB_qtty(int b_qtty) {

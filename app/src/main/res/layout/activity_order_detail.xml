@@ -31,6 +31,7 @@
                 android:textSize="24sp"
                 android:text="Date of Order: "/>
             <TextView
+                android:id="@+id/o_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"/>
@@ -56,6 +57,7 @@
                 android:textSize="24sp"
                 android:text="Milk Type: "/>
             <TextView
+                android:id="@+id/o_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"/>
@@ -80,6 +82,7 @@
                 android:textSize="24sp"
                 android:text="Quantity: "/>
             <TextView
+                android:id="@+id/o_qtty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"/>
@@ -104,6 +107,7 @@
                 android:textSize="24sp"
                 android:text="Start Date: "/>
             <TextView
+                android:id="@+id/s_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"/>
@@ -128,6 +132,7 @@
                 android:textSize="24sp"
                 android:text="End Date: "/>
             <TextView
+                android:id="@+id/e_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"/>
@@ -152,6 +157,7 @@
                 android:textSize="24sp"
                 android:text="Total Cost: "/>
             <TextView
+                android:id="@+id/t_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="20sp"/>
@@ -178,17 +184,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Back"
-                android:background="@android:color/holo_purple"/>
-        </LinearLayout>
     </LinearLayout>

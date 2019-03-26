@@ -14,9 +14,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.parmila.milkmanager.Nav_Activity.Bills;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
@@ -43,11 +45,19 @@ public class Catalog extends AppCompatActivity {
     private SellerRecyclerAdapter sellerRecyclerAdapter;
     private DatabaseHelper helper=new DatabaseHelper(this);
 
+    public static String email;
+
     SessionManager shm;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+
+        Intent i=getIntent();
+        email=i.getStringExtra("C_Email");
+        String TAG="Catalog";
+        Log.d(TAG,"Extra intent string"+email);
+
         helper.insertMilk();
         initNavigationDrawer();
         mDrawerLayout = findViewById(R.id.draw);
@@ -157,12 +167,12 @@ public class Catalog extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.search_bar,menu);
         MenuItem searchItem=menu.findItem(R.id.action_search);
         SearchView searchView =(SearchView)searchItem.getActionView();
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

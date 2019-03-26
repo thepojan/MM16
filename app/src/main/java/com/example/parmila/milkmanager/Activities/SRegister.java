@@ -1,5 +1,6 @@
 package com.example.parmila.milkmanager.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,8 +37,6 @@ public class SRegister extends AppCompatActivity {
         reg_s_pwd=findViewById(R.id.reg_s_pwd);
         reg_s_confirm_pwd=findViewById(R.id.reg_s_confirm_pwd);
         reg_s_btn=findViewById(R.id.register_s_confirm_button);
-
-
 
         reg_s_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +83,8 @@ public class SRegister extends AppCompatActivity {
         s.setS_pass(pass);
         dbHelper.insertSeller(s);
         Toast.makeText(this, "Registered Successfully!!", Toast.LENGTH_SHORT).show();
+        Intent i=new Intent(this,login.class);
+        startActivity(i);
     }
 
     public boolean isValid()
