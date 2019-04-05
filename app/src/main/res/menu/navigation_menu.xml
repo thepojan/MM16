@@ -9,7 +9,7 @@
     <item
         android:id="@+id/bills" android:title="bills"
         android:titleCondensed="Monthly Bills"
-        android:icon="@drawable/ic_receipt_black_24dp"
+        android:icon="@drawable/ic_receipt_purple"
         />
     <item
         android:id="@+id/settings"

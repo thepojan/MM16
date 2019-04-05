@@ -46,7 +46,7 @@ public class Order_Now extends AppCompatActivity {
     Button cal_cost, Submit;
     TextView Total_Cost, startDate,endDate,perDayCost;
 
-    Catalog c= c=new Catalog();
+    Catalog c= new Catalog();
     String cust_email=c.email;
     public static String s_email;
     @Override
@@ -241,6 +241,7 @@ public class Order_Now extends AppCompatActivity {
         v.setV_date(getDateTime());
         v.setV_type(mType);
         v.setV_cname(current_c_name);
+        v.setV_caddr(current_c_addr);
         v.setV_sname(curr_s_name);
         v.setV_qtty(Integer.parseInt(quantity.getText().toString().trim()));
         v.setV_start(startDate.getText().toString().trim());

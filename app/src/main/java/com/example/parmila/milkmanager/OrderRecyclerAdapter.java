@@ -12,10 +12,14 @@ import com.example.parmila.milkmanager.modules.View_Order;
 import java.util.List;
 
 public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>
-
 {
+
+    static String o_date;
+
+
     private List<View_Order> listOrder;
     private OnOrderListener monOrderListener;
+
 
     public OrderRecyclerAdapter(List<View_Order> listOrder, OnOrderListener onOrderListener) {
         this.listOrder = listOrder;
@@ -60,7 +64,7 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
     }
 
     public interface OnOrderListener {
-        public void onOrderClick(int position);
+         void onOrderClick(int position);
     }
 
 }

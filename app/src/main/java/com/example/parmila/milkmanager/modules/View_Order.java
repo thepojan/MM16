@@ -2,7 +2,7 @@ package com.example.parmila.milkmanager.modules;
 
 public class View_Order {
 
-    String v_type,v_start,v_end,v_date, v_cname, v_sname;
+    String v_type,v_start,v_end,v_date, v_cname, v_sname, v_caddr;
     int v_fcost,v_qtty;
 
     public void setV_cname(String v_cname) {
@@ -67,5 +67,14 @@ public class View_Order {
 
     public int getV_fcost() {
         return v_fcost;
+    }
+
+
+    public void setV_caddr(String v_caddr) {
+        this.v_caddr = v_caddr;
+    }
+
+    public String getV_caddr() {
+        return v_caddr;
     }
 }

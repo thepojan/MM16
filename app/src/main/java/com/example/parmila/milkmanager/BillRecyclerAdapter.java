@@ -19,7 +19,7 @@ public class BillRecyclerAdapter extends RecyclerView.Adapter<BillRecyclerAdapte
     private List<Bill> listBill;
     private  OnBillListener monBillListener;
 
-    public BillRecyclerAdapter(List<Bill> listBill, Bills obl) {
+    public BillRecyclerAdapter(List<Bill> listBill, OnBillListener obl) {
         this.listBill = listBill;
         this.monBillListener=obl;
     }
@@ -28,10 +28,11 @@ public class BillRecyclerAdapter extends RecyclerView.Adapter<BillRecyclerAdapte
     public BillViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // inflating recycler item view
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_bill_recycler_view, parent, false);
-        return new BillViewHolder(itemView,monBillListener);
+        return new BillViewHolder(itemView, monBillListener);
     }
     @Override
     public void onBindViewHolder(BillViewHolder holder, int position) {
+        holder.bill_id.setText(listBill.get(position).getB_id());
         holder.start.setText(listBill.get(position).getB_start());
         holder.end.setText(listBill.get(position).getB_end());
         holder.f_cost.setText("\u20B9 "+String.valueOf(listBill.get(position).getB_fcost()));
@@ -45,7 +46,7 @@ public class BillRecyclerAdapter extends RecyclerView.Adapter<BillRecyclerAdapte
     }
 
     public class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView start,end,f_cost;
+        public TextView start,end,f_cost, bill_id;
         OnBillListener obl;
 
         public BillViewHolder(final View view, OnBillListener onBillListener) {
@@ -53,24 +54,18 @@ public class BillRecyclerAdapter extends RecyclerView.Adapter<BillRecyclerAdapte
             start = view.findViewById(R.id.s_date);
             end = view.findViewById(R.id.e_date);
             f_cost=view.findViewById(R.id.t_cost);
-            obl=onBillListener;
+            bill_id=view.findViewById(R.id.bill_no);
+            onBillListener=monBillListener;
             view.setOnClickListener(this);
         }
-
-
         @Override
         public void onClick(View v) {
-
             monBillListener.onBillClick(getAdapterPosition());
-
         }
     }
-
 
     public interface OnBillListener{
         void onBillClick(int position);
     }
-
-
 
 }

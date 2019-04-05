@@ -18,11 +18,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.inputmethod.EditorInfo;
 
 import com.example.parmila.milkmanager.Nav_Activity.Bills;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
-import com.example.parmila.milkmanager.Nav_Activity.Order_Now;
 import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.SellerRecyclerAdapter;
 import com.example.parmila.milkmanager.Nav_Activity.Setting;
@@ -31,7 +30,6 @@ import com.example.parmila.milkmanager.SessionManager;
 import com.example.parmila.milkmanager.modules.Seller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -95,7 +93,7 @@ public class Catalog extends AppCompatActivity {
         recyclerSellerView.setHasFixedSize(true);
         recyclerSellerView.addItemDecoration(divider);
         recyclerSellerView.setAdapter(sellerRecyclerAdapter);
-        helper = new DatabaseHelper(this);
+        helper=new DatabaseHelper(this);
         getDataFromSQLite();
 
     }
@@ -131,11 +129,13 @@ public class Catalog extends AppCompatActivity {
                 {
                     case  R.id.view_orders:
                         intent = new Intent(Catalog.this, View_Orders.class);
+                        intent.putExtra("FROM","CustomerCatalog");
                         startActivity(intent);
                         break;
 
                     case R.id.bills:
                         intent = new Intent(Catalog.this, Bills.class);
+                        intent.putExtra("FROM","CustomerCatalog");
                         startActivity(intent);
                         break;
 
@@ -167,23 +167,25 @@ public class Catalog extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+       // super.onCreateOptionsMenu(menu);
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.search_bar,menu);
         MenuItem searchItem=menu.findItem(R.id.action_search);
         SearchView searchView =(SearchView)searchItem.getActionView();
 
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
+           @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                  sellerRecyclerAdapter.getFilter().filter(s);
-                return false;
+                return true;
             }
         });
         return true;

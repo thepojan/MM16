@@ -1,9 +1,7 @@
 package com.example.parmila.milkmanager.Activities;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 import com.example.parmila.milkmanager.R;
+import com.example.parmila.milkmanager.Seller.SellerDashboard;
 import com.example.parmila.milkmanager.SessionManager;
 
 public class login extends AppCompatActivity {
@@ -21,6 +20,7 @@ public class login extends AppCompatActivity {
      private EditText email;
      private EditText password;
      private Button login, register;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -66,9 +66,8 @@ public class login extends AppCompatActivity {
            else if(helper.checkCust(email.getText().toString().trim(),password.getText().toString().trim()))
            {
                //finish();
-                    String email1,pass1;
+                    String email1;
                     email1=email.getText().toString().trim();
-                    pass1=password.getText().toString().trim();
                     SessionManager shm=new SessionManager(getApplicationContext());
                     shm.secondTime();
                    Intent catalogIntent = new Intent(login.this, Catalog.class);
@@ -78,9 +77,10 @@ public class login extends AppCompatActivity {
            }
            else if(helper.checkSeller(email.getText().toString().trim(),password.getText().toString().trim()))
             {
-
+                String email1;
+                email1=email.getText().toString().trim();
                 Intent SellerDashboardIntent = new Intent(login.this, SellerDashboard.class);
-               // SellerDashboardIntent.putExtra("S-Email",email1);
+                SellerDashboardIntent.putExtra("S_Email",email1);
                 login.this.startActivity(SellerDashboardIntent);
             }
 

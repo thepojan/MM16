@@ -31,6 +31,7 @@
             android:textSize="24sp"
             android:text="Bill No. : "/>
         <TextView
+            android:id="@+id/bill_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -55,6 +56,32 @@
             android:textSize="24sp"
             android:text="Seller Name: "/>
         <TextView
+            android:id="@+id/s_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="Customer Name: "/>
+        <TextView
+            android:id="@+id/c_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -79,6 +106,7 @@
             android:textSize="24sp"
             android:text="Milk Type: "/>
         <TextView
+            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -103,6 +131,7 @@
             android:textSize="24sp"
             android:text="Quantity: "/>
         <TextView
+            android:id="@+id/qtty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -127,6 +156,7 @@
             android:textSize="24sp"
             android:text="Start Date: "/>
         <TextView
+            android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -151,6 +181,7 @@
             android:textSize="24sp"
             android:text="End Date: "/>
         <TextView
+            android:id="@+id/end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"/>
@@ -175,6 +206,7 @@
             android:textSize="24sp"
             android:text="No. of Days: "/>
         <TextView
+            android:id="@+id/days"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20sp"/>
@@ -199,6 +231,7 @@
             android:textSize="24sp"
             android:text="Total Cost: "/>
         <TextView
+            android:id="@+id/t_cost"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20sp"/>
@@ -212,26 +245,4 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="Pay"
-            android:background="@android:color/holo_purple"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="Back"
-            android:background="@android:color/holo_purple"/>
-    </LinearLayout>
 </LinearLayout>
