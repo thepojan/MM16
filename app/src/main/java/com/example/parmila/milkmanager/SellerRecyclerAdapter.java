@@ -21,7 +21,7 @@ import java.util.List;
 
 
 
-public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAdapter.SellerViewHolder> implements Filterable
+public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAdapter.SellerViewHolder>implements Filterable
 
 {
 
@@ -128,5 +128,6 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
             });
         }
     }
+
 
 }

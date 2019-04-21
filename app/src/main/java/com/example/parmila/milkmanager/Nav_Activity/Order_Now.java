@@ -131,10 +131,59 @@ public class Order_Now extends AppCompatActivity {
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                saveToOrder();
+                if(isValid())
+                {
+                    saveToOrder();
+                }
             }
         });
+    }
+
+    private boolean isValid() {
+        boolean valid=true;
+        if(!(Cow.isChecked()) && !(Buffalo.isChecked()))
+        {
+            Toast.makeText(this,"Please select type of milk!",Toast.LENGTH_SHORT).show();
+            valid=false;
+        }
+
+        if(quantity.getText().toString().isEmpty())
+        {
+            quantity.setError("Please enter quantity!");
+            valid=false;
+        }
+
+        if(startDate.getText().toString().isEmpty())
+        {
+            startDate.setError("Please enter start date!");
+            valid=false;
+        }
+
+        if(endDate.getText().toString().isEmpty())
+        {
+            endDate.setError("Please enter end date!");
+            valid=false;
+        }
+
+
+        if(quantity.getText().toString().isEmpty())
+        {
+            quantity.setError("Please enter quantity!");
+            valid=false;
+        }
+
+        if(Total_Cost.getText().toString().isEmpty())
+        {
+            Total_Cost.setError("Please click on calculate cost button!");
+            valid=false;
+        }
+
+        if(perDayCost.getText().toString().isEmpty())
+        {
+            perDayCost.setError("Please click on calculate cost button!");
+            valid=false;
+        }
+        return valid;
     }
 
     private int milkCost()

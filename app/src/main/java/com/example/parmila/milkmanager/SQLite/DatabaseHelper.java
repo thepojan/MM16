@@ -528,9 +528,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }*/
 
 
-    public List<Bill> getAllBills(String cname, String sname) {
+    public List<Bill> getAllCustBills(String cname) {
 
-        Log.d("DB:", cname + " : " + sname);
+        Log.d("DB:", cname);
 
         String[] columns = {
                 COLUMN_B_ID,
@@ -548,8 +548,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Bill> billList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(B_TABLE_NAME, columns, COLUMN_B_CNAME + "='" + cname + "' AND " +
-                COLUMN_B_SNAME + "='" + sname + "'", null, null, null, sortOrder);
+        Cursor cursor = db.query(B_TABLE_NAME, columns, COLUMN_B_CNAME + "='" + cname +"'", null, null, null, sortOrder);
 
         if (cursor.moveToFirst()) {
             do {
@@ -616,9 +615,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<View_Order> getAllOrders(String cname, String sname) {
+    public List<View_Order> getAllCustOrders(String cname) {
 
-        Log.d("GetAllOrder:", cname + " : " + sname);
+        Log.d("GetAllOrder:", cname);
 
         String[] columns = {
                 COLUMN_V_TYPE,
@@ -635,8 +634,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<View_Order> orderList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(V_TABLE_NAME, columns, COLUMN_V_CNAME + "='" + cname + "' AND " +
-                COLUMN_V_SNAME + "='" + sname + "'", null, null, null, sortOrder);
+        Cursor cursor = db.query(V_TABLE_NAME, columns, COLUMN_V_CNAME + "='" + cname +"'", null, null, null, sortOrder);
 
         if (cursor.moveToFirst()) {
             do {

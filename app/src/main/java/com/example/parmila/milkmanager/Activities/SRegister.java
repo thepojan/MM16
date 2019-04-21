@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,7 +114,7 @@ public class SRegister extends AppCompatActivity {
             reg_s_pin.setError("invalid pin code");
             valid=false;
         }
-        if(email.isEmpty()||email.equals(c_emailPattern))
+        if(email.isEmpty()|| !(Patterns.EMAIL_ADDRESS.matcher(email).matches()))
         {
             reg_s_email.setError("invalid email");
             valid=false;

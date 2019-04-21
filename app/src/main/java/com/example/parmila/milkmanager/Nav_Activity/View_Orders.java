@@ -122,7 +122,7 @@ public class View_Orders extends AppCompatActivity implements OrderRecyclerAdapt
             @Override
             protected Void doInBackground(Void... params) {
                 listOrder.clear();
-                listOrder.addAll(helper.getAllOrders(cname, sname));
+                listOrder.addAll(helper.getAllCustOrders(cname));
                 return null;
             }
 

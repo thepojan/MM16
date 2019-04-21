@@ -46,13 +46,13 @@
                 android:id="@+id/cow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cow"
+                android:text="Cow (₹40/litre)"
                 android:textSize="20sp" />
             <RadioButton
                 android:id="@+id/buffalo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buffalo"
+                android:text="Buffalo (₹45/litre)"
                 android:textSize="20sp" />
         </RadioGroup>
     </LinearLayout>

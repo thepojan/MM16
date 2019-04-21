@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.parmila.milkmanager.Activities.Catalog;
 import com.example.parmila.milkmanager.Activities.login;
+import com.example.parmila.milkmanager.MySession.PreferenceUtils;
 import com.example.parmila.milkmanager.Nav_Activity.Bills;
 import com.example.parmila.milkmanager.Nav_Activity.View_Orders;
 import com.example.parmila.milkmanager.OrderRecyclerAdapter;
@@ -53,8 +54,11 @@ public class SellerDashboard extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PreferenceUtils.saveEmail(null, SellerDashboard.this);
+                PreferenceUtils.savePassword(null, SellerDashboard.this);
                 Intent i = new Intent(SellerDashboard.this, login.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -71,6 +75,7 @@ public class SellerDashboard extends AppCompatActivity {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent i = new Intent(SellerDashboard.this, View_Orders.class);
                 i.putExtra("FROM", "SellerDashBoard");
                 startActivity(i);

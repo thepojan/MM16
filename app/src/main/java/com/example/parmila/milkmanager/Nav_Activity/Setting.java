@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.parmila.milkmanager.Activities.Catalog;
 import com.example.parmila.milkmanager.Delete;
+import com.example.parmila.milkmanager.MySession.PreferenceUtils;
 import com.example.parmila.milkmanager.R;
 import com.example.parmila.milkmanager.SQLite.DatabaseHelper;
 
@@ -21,9 +22,10 @@ public class Setting extends AppCompatActivity {
 
     Catalog c= c=new Catalog();
     String cEmail=c.email;
-    Order_Now o_n=new Order_Now();
-    String sEmail=o_n.s_email;
+   // Order_Now o_n=new Order_Now();
+   // String sEmail=o_n.s_email;
 
+   // String cEmail=PreferenceUtils.getEmail(getApplicationContext());
 
     TextView name,email,address,phone,zip,delete;
     Button back;

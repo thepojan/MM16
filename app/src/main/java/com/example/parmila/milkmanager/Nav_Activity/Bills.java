@@ -127,7 +127,7 @@ public class Bills extends AppCompatActivity implements BillRecyclerAdapter.OnBi
             @Override
             protected Void doInBackground(Void... params) {
                 listBill.clear();
-                listBill.addAll(helper.getAllBills(cname, sname));
+                listBill.addAll(helper.getAllCustBills(cname));
                 return null;
             }
 
