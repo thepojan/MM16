@@ -35,7 +35,8 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 
     @Override
     public void onBindViewHolder(OrderViewHolder holder, int position) {
-        holder.date.setText(listOrder.get(position).getV_start());
+        holder.type.setText(listOrder.get(position).getV_type());
+        holder.quantity.setText(String.valueOf(listOrder.get(position).getV_qtty()));
         holder.f_cost.setText("\u20B9 " + String.valueOf(listOrder.get(position).getV_fcost()));
     }
 
@@ -47,11 +48,12 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
 
     public class OrderViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        public TextView date, f_cost;
+        public TextView type,quantity,f_cost;
 
         public OrderViewHolder(final View view, OnOrderListener ool) {
             super(view);
-            date = view.findViewById(R.id.date);
+            type = view.findViewById(R.id.mvtype);
+            quantity=view.findViewById(R.id.vquantity);
             f_cost = view.findViewById(R.id.f_cost);
             ool = monOrderListener;
             view.setOnClickListener(this);
